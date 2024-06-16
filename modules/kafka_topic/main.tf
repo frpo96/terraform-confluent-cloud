@@ -1,5 +1,12 @@
 # Configure the Confluent Provider
 terraform {
+  cloud {
+    organization = "frpo-dev"
+
+    workspaces {
+      name = "confluent-cloud-github"
+    }
+  }
   required_providers {
     confluent = {
       source  = "confluentinc/confluent"
