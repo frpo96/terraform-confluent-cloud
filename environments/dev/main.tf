@@ -21,8 +21,8 @@ module "kafka_topic" {
   confluent_cloud_api_key    = var.confluent_cloud_api_key
   confluent_cloud_api_secret = var.confluent_cloud_api_secret
   kafka_cluster_id           = var.kafka_cluster_id
-  topic_name                 = var.topic_name
-  partitions_count           = var.partitions_count
+  topic_name                 = demo-topic
+  partitions_count           = 3
   rest_endpoint              = var.rest_endpoint
   credentials_key            = var.credentials_key
   credentials_secret         = var.credentials_secret

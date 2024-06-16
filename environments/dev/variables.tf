@@ -13,17 +13,6 @@ variable "kafka_cluster_id" {
   type        = string
 }
 
-variable "topic_name" {
-  description = "Name of the Kafka topic"
-  type        = string
-}
-
-variable "partitions_count" {
-  description = "The number of partitions for the Kafka topic"
-  type        = number
-  default     = 1  # You can set a default value if needed
-}
-
 variable "rest_endpoint" {
   description = "REST endpoint of the Kafka cluster"
   type        = string
