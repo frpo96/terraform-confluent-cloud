@@ -1,5 +1,5 @@
-This repository contains Terraform configurations to manage infrastructure, including Confluent Cloud Kafka topics.
-
+This repository contains Terraform configurations to manage infrastructure, including Confluent Cloud Kafka topics. 
+Actions will currently apply all the dev configurations.
 ## Structure
 
 - `modules/`: Contains reusable Terraform modules.
