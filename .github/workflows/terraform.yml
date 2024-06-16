@@ -47,15 +47,30 @@ jobs:
       #    cd environments/dev
       #    terraform fmt -check
 
-      # Generates an execution plan for Terraform
+        # Generate and show an execution plan
       - name: Terraform Plan
         run: |
           cd environments/dev
-          terraform plan -input=false
+          terraform plan \
+            -var="confluent_cloud_api_key=${{ secrets.CONFLUENT_CLOUD_API_KEY }}" \
+            -var="confluent_cloud_api_secret=${{ secrets.CONFLUENT_CLOUD_API_SECRET }}" \
+            -var="credentials_key=${{ secrets.CREDENTIALS_KEY }}" \
+            -var="credentials_secret=${{ secrets.CREDENTIALS_SECRET }}" \
+            -var="kafka_cluster_id=${{ secrets.KAFKA_CLUSTER_ID }}" \
+            -var="rest_endpoint=${{ secrets.REST_ENDPOINT }}" \
+            -input=false
 
-      # Apply changes according to Terraform configuration files
+        # Apply a Terraform execution plan to change the infrastructure
       - name: Terraform Apply
         if: github.event_name == 'push'
         run: |
           cd environments/dev
-          terraform apply -auto-approve -input=false
+          terraform apply \
+            -var="confluent_cloud_api_key=${{ secrets.CONFLUENT_CLOUD_API_KEY }}" \
+            -var="confluent_cloud_api_secret=${{ secrets.CONFLUENT_CLOUD_API_SECRET }}" \
+            -var="credentials_key=${{ secrets.CREDENTIALS_KEY }}" \
+            -var="credentials_secret=${{ secrets.CREDENTIALS_SECRET }}" \
+            -var="kafka_cluster_id=${{ secrets.KAFKA_CLUSTER_ID }}" \
+            -var="rest_endpoint=${{ secrets.REST_ENDPOINT }}" \
+            -auto-approve \
+            -input=false
