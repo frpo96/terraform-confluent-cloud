@@ -31,19 +31,31 @@ jobs:
           terraform_version: 1.8.5
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+      # Output Terraform version for debugging
+      - name: Terraform Version
+        run: terraform version
+
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init -chdir=environments/dev
+        run: |
+          cd environments/dev
+          terraform init
 
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
-        run: terraform fmt -check -chdir=environments/dev
+        run: |
+          cd environments/dev
+          terraform fmt -check
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
-        run: terraform plan -input=false -chdir=environments/dev
+        run: |
+          cd environments/dev
+          terraform plan -input=false
 
       # Apply changes according to Terraform configuration files
       - name: Terraform Apply
         if: github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false -chdir=environments/dev
+        run: |
+          cd environments/dev
+          terraform apply -auto-approve -input=false
