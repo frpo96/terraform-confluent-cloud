@@ -21,6 +21,24 @@ provider "confluent" {
   cloud_api_secret = var.confluent_cloud_api_secret # optionally use CONFLUENT_CLOUD_API_SECRET env var
 }
 
+resource "confluent_schema" "this" {
+  schema_registry_cluster {
+    id = var.schema_registry_cluster_id
+  }
+  rest_endpoint = var.schema_registry_rest_endpoint
+  subject_name = "${var.topic_name}-value"
+  format = "AVRO" // FIXED TO AVRO
+  schema = file(var.schema_file_path)
+  credentials {
+    key    = var.schema_registry_api_key
+    secret = var.schema_registry_api_secret
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
 # Create the resources
 resource "confluent_kafka_topic" "this" {
   kafka_cluster {

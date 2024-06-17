@@ -38,3 +38,28 @@ variable "credentials_secret" {
   description = "API secret for the Kafka cluster"
   type        = string
 }
+
+variable "schema_registry_cluster_id" {
+  description = "The ID of the schema registry cluster."
+  type        = string
+}
+
+variable "schema_registry_rest_endpoint" {
+  description = "The REST endpoint of the schema registry."
+  type        = string
+}
+
+variable "schema_registry_api_key" {
+  description = "The REST endpoint of the schema registry."
+  type        = string
+}
+
+variable "schema_registry_api_secret" {
+  description = "The REST endpoint of the schema registry."
+  type        = string
+}
+
+variable "schema_file_path" {
+  description = "The file path to the AVRO schema."
+  type        = string
+}

@@ -57,6 +57,10 @@ jobs:
             -var="credentials_secret=${{ secrets.CREDENTIALS_SECRET }}" \
             -var="kafka_cluster_id=${{ secrets.KAFKA_CLUSTER_ID }}" \
             -var="rest_endpoint=${{ secrets.REST_ENDPOINT }}" \
+            -var="schema_registry_cluster_id=${{ secrets.SCHEMA_REGISTRY_CLUSTER_ID }}" \
+            -var="schema_registry_rest_endpoint=${{ secrets.SCHEMA_REGISTRY_REST_ENDPOINT }}" \
+            -var="schema_registry_api_key=${{ secrets.SCHEMA_REGISTRY_API_KEY }}" \
+            -var="schema_registry_api_secret=${{ secrets.SCHEMA_REGISTRY_API_SECRET }}" \
             -input=false
 
         # Apply a Terraform execution plan to change the infrastructure
@@ -70,5 +74,9 @@ jobs:
             -var="credentials_secret=${{ secrets.CREDENTIALS_SECRET }}" \
             -var="kafka_cluster_id=${{ secrets.KAFKA_CLUSTER_ID }}" \
             -var="rest_endpoint=${{ secrets.REST_ENDPOINT }}" \
+            -var="schema_registry_cluster_id=${{ secrets.SCHEMA_REGISTRY_CLUSTER_ID }}" \
+            -var="schema_registry_rest_endpoint=${{ secrets.SCHEMA_REGISTRY_REST_ENDPOINT }}" \
+            -var="schema_registry_api_key=${{ secrets.SCHEMA_REGISTRY_API_KEY }}" \
+            -var="schema_registry_api_secret=${{ secrets.SCHEMA_REGISTRY_API_SECRET }}" \
             -auto-approve \
             -input=false
