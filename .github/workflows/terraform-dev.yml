@@ -2,9 +2,11 @@ name: 'Terraform'
 
 on:
   push:
-    branches: ['*']
+    branches:
+      - 'dev/**'
   pull_request:
-    branches: ['*']
+    branches:
+      - 'dev/**'
 
 permissions:
   contents: read
@@ -38,19 +40,16 @@ jobs:
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: |
-          cd environments/dev
           terraform init
 
       # Checks that all Terraform configuration files adhere to a canonical format
       #- name: Terraform Format
       #  run: |
-      #    cd environments/dev
       #    terraform fmt -check
 
         # Generate and show an execution plan
       - name: Terraform Plan
         run: |
-          cd environments/dev
           terraform plan \
             -var="confluent_cloud_api_key=${{ secrets.CONFLUENT_CLOUD_API_KEY }}" \
             -var="confluent_cloud_api_secret=${{ secrets.CONFLUENT_CLOUD_API_SECRET }}" \
@@ -64,7 +63,6 @@ jobs:
       - name: Terraform Apply
         if: github.event_name == 'push'
         run: |
-          cd environments/dev
           terraform apply \
             -var="confluent_cloud_api_key=${{ secrets.CONFLUENT_CLOUD_API_KEY }}" \
             -var="confluent_cloud_api_secret=${{ secrets.CONFLUENT_CLOUD_API_SECRET }}" \
