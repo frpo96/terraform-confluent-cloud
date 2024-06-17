@@ -23,7 +23,7 @@ provider "confluent" {
 
 # Create the resources
 module "kafka_topic" {
-  source = "../../modules/kafka_topic"
+  source = "./modules/kafka_topic"
 
   confluent_cloud_api_key    = var.confluent_cloud_api_key
   confluent_cloud_api_secret = var.confluent_cloud_api_secret
