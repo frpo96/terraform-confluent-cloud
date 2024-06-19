@@ -60,11 +60,19 @@ provider "confluent" {
 #  }
 #}
 
+# Create all tags
+module "tags" {
+  source = "./tags"
+  common_vars = local.common_vars
+}
+
 # Create all topics
 module "topics" {
   source = "./topics"
   common_vars = local.common_vars
 }
+
+
 
 
 
