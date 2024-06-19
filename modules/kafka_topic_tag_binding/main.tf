@@ -21,38 +21,21 @@ provider "confluent" {
   cloud_api_secret = var.common_vars["confluent_cloud_api_secret"]
 }
 
-resource "confluent_schema" "this" {
+resource "confluent_tag_binding" "this" {
   schema_registry_cluster {
     id = var.common_vars["schema_registry_cluster_id"]
   }
   rest_endpoint = var.common_vars["schema_registry_rest_endpoint"]
-  subject_name  = "${var.topic_name}-value"
-  format        = "AVRO" // FIXED TO AVRO
-  schema        = file(var.schema_file_path)
   credentials {
     key    = var.common_vars["schema_registry_api_key"]
     secret = var.common_vars["schema_registry_api_secret"]
   }
 
+  tag_name     = var.tag_name
+  entity_name  = "${var.common_vars["schema_registry_cluster_id"]}:${var.common_vars["kafka_cluster_id"]}:${var.topic_name}"
+  entity_type  = "kafka_topic"
+
   lifecycle {
     prevent_destroy = false
-  }
-}
-
-# Create the resources
-resource "confluent_kafka_topic" "this" {
-  kafka_cluster {
-    id = var.common_vars["kafka_cluster_id"]
-  }
-  topic_name       = var.topic_name
-  partitions_count = var.partitions_count
-  rest_endpoint    = var.common_vars["rest_endpoint"]
-  credentials {
-    key    = var.common_vars["credentials_key"]
-    secret = var.common_vars["credentials_secret"]
-  }
-
-  lifecycle {
-    prevent_destroy = false // statically set to false
   }
 }

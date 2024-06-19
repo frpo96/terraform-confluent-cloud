@@ -21,21 +21,100 @@ provider "confluent" {
   cloud_api_secret = var.confluent_cloud_api_secret # optionally use CONFLUENT_CLOUD_API_SECRET env var
 }
 
-# Create the resources
-module "kafka_topic" {
-  source = "./modules/kafka_topic"
+#
+#resource "confluent_tag" "pii" {
+#  schema_registry_cluster {
+#    id = var.schema_registry_cluster_id
+#  }
+#  rest_endpoint = var.schema_registry_rest_endpoint
+#  credentials {
+#    key    = var.schema_registry_api_key
+#    secret = var.schema_registry_api_secret
+#  }
+#
+#  name = "PII"
+#  description = "Personally identifiable information"
+#
+#  lifecycle {
+#    prevent_destroy = false
+#  }
+#}
+#
+## Apply the Tag/BusinessMetadata on a topic
+#resource "confluent_tag_binding" "pii-topic-tagging" {
+#  schema_registry_cluster {
+#    id = var.schema_registry_cluster_id
+#  }
+#  rest_endpoint = var.schema_registry_rest_endpoint
+#  credentials {
+#    key    = var.schema_registry_api_key
+#    secret = var.schema_registry_api_secret
+#  }
+#
+#  tag_name = confluent_tag.pii.name
+#  entity_name = "${var.schema_registry_cluster_id}:${var.kafka_cluster_id}:demo-pipeline-caja"
+#  entity_type = "kafka_topic"
+#
+#  lifecycle {
+#    prevent_destroy = false
+#  }
+#}
 
-  confluent_cloud_api_key    = var.confluent_cloud_api_key
-  confluent_cloud_api_secret = var.confluent_cloud_api_secret
-  kafka_cluster_id           = var.kafka_cluster_id
-  topic_name                 = "demo-pipeline-caja"
-  partitions_count           = 6
-  rest_endpoint              = var.rest_endpoint
-  credentials_key            = var.credentials_key
-  credentials_secret         = var.credentials_secret
-  schema_file_path           = "./schemas/avro/caja.avsc"
-  schema_registry_api_key    = var.schema_registry_api_key
-  schema_registry_api_secret = var.schema_registry_api_secret
-  schema_registry_cluster_id = var.schema_registry_cluster_id
-  schema_registry_rest_endpoint = var.schema_registry_rest_endpoint
+# Create all tags
+module "tags" {
+  source = "./tags"
+  common_vars = local.common_vars
 }
+
+# Create all topics
+module "topics" {
+  source = "./topics"
+  common_vars = local.common_vars
+}
+
+
+
+
+
+#resource "confluent_business_metadata" "owner_metadata" {
+#  description = "The person responsible for the data"
+#  name = "Data Owner"
+#  attribute_definition { name = "Team" }
+#  attribute_definition { name = "Email" }
+#
+#  schema_registry_cluster {
+#    id = var.schema_registry_cluster_id
+#  }
+#  rest_endpoint = var.schema_registry_rest_endpoint
+#  credentials {
+#    key    = var.schema_registry_api_key
+#    secret = var.schema_registry_api_secret
+#  }
+#
+#  lifecycle {
+#    prevent_destroy = false
+#  }
+#}
+#
+#resource "confluent_business_metadata_binding" "owner-binding" {
+#  schema_registry_cluster {
+#    id = var.schema_registry_cluster_id
+#  }
+#  rest_endpoint = var.schema_registry_rest_endpoint
+#  credentials {
+#    key    = var.schema_registry_api_key
+#    secret = var.schema_registry_api_secret
+#  }
+#
+#  business_metadata_name = confluent_business_metadata.owner_metadata.name
+#  entity_name = "${var.schema_registry_cluster_id}:${var.kafka_cluster_id}:demo-pipeline-caja"
+#  entity_type = "kafka_topic"
+#  attributes = {
+#    Team  = "INVIXO Stream Team"
+#    Email = "foo@bar.com"
+#  }
+#
+#  lifecycle {
+#    prevent_destroy = false
+#  }
+#}
