@@ -3,7 +3,7 @@ module "this" {
 
   common_vars = var.common_vars
 
-  topic_name       = "public_myapp_metadata_update"
+  topic_name       = "public_myapp_metadata_updates"
   partitions_count = 6
   schema_file_path = "./schemas/avro/caja.avsc"
 }
