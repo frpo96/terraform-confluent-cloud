@@ -1,4 +1,4 @@
-module "this" {
+module "public_myapp_payload_update" {
   source = "../modules/kafka_topic"
 
   common_vars = var.common_vars
@@ -8,7 +8,7 @@ module "this" {
   schema_file_path = "./schemas/avro/caja.avsc"
 }
 
-module "this-tag-binding" {
+module "public_myapp_payload_update-tag-binding" {
   source = "../modules/kafka_topic_tag_binding"
 
   common_vars = var.common_vars
