@@ -15,3 +15,8 @@ resource "confluent_tag" "finance" {
     prevent_destroy = false
   }
 }
+
+output "kafka_topic_name" {
+  description = "The name of the tag"
+  value       = confluent_tag.finance.name
+}
